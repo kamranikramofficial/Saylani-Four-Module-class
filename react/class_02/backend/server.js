@@ -1,49 +1,38 @@
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./config/db.js";
 
-// Load environment variables
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+
 dotenv.config();
 
-// ES Module fix for __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Serve static files
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
-// Import routes
-import productRoutes from './routes/productRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
-
-// Use routes
-app.use('/api/products', productRoutes);
-app.use('/api/admin', adminRoutes);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
-    message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
-  });
+app.get("/", (req, res) => {
+  res.send("E-commerce API is running...");
 });
 
-// Not found middleware
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+const PORT = process.env.PORT || 4000;
+const startServer = async () => {
+  try {
+    await connectDB(); 
+    console.log(" MongoDB Connected Successfully");
+    app.listen(PORT, () =>
+      console.log(` Server running on port ${PORT}`)
+    );
+  } catch (error) {
+    console.error(" Failed to connect to MongoDB:", error.message);
+    process.exit(1); 
+  }
+};
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+startServer();
