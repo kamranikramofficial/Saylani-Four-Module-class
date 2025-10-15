@@ -5,7 +5,7 @@ export default function Hero() {
 
   const fetchMessage = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/message");
+      const response = await fetch("https://saylani-four-module-class.vercel.app/api/message");
       const data = await response.json();
       setMessage(data.message);
       console.log(response);
