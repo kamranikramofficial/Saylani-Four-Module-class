@@ -19,7 +19,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.get("/", (req, res) => {
-  res.send("🛍️ E-commerce API is running...");
+  res.send("E-commerce API is running...");
 });
 
-export default app;
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
