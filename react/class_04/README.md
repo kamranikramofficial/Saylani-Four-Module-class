@@ -1,16 +1,49 @@
-# React + Vite
+# Installing Shadcn in a React Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Step 1: Install Vite
+Set up your project with Vite as the build tool.
 
-Currently, two official plugins are available:
+## Step 2: Install Tailwind CSS
+Configure Tailwind CSS for styling support.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Step 3: Create `jsconfig.json`
+Create a `jsconfig.json` file in the root directory with the following configuration:
 
-## React Compiler
+```json
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
+    }
+}
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Step 4: Configure Path Alias in `vite.config.js`
+Update your `vite.config.js` to resolve the path alias:
 
-## Expanding the ESLint configuration
+```javascript
+resolve: {
+    alias: {
+        "@": path.resolve(__dirname, "./src"),
+    },
+},
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Step 5: Initialize Shadcn
+Run the initialization command:
+
+```bash
+npx shadcn@latest init
+```
+
+## Step 6: Add Button Component
+Install the button component:
+
+```bash
+npx shadcn@latest add button
+```
+
+## Step 7: Start Building
+You're ready to use Shadcn components in your project.
